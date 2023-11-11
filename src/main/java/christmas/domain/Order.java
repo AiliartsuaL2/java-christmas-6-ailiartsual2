@@ -1,6 +1,11 @@
 package christmas.domain;
 
 public class Order {
-    private Menu menu;
-    private int count;
+    private final Menu menu;
+    private final int count;
+
+    public Order(Menu menu, int count) {
+        this.menu = menu;
+        this.count = count;
+    }
 }
