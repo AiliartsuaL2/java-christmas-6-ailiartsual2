@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 public class Order {
-    private static final Pattern ORDER_COUNT_REGEX = Pattern.compile("");
+    private static final Pattern ORDER_COUNT_REGEX = Pattern.compile("^[1-9]\\d*$");
 
     private final Menu menu;
     private final int count;
@@ -18,21 +18,28 @@ public class Order {
         this.count = count;
     }
 
-    public static List<Order> get(String readOrders) {
-        List<Order> createdOrders = new ArrayList<>();
-        String[] readOrder = readOrders.split(",");
+    public static List<Order> get(String inputOrders) {
+        List<Order> orders = new ArrayList<>();
+        String[] inputOrdersInfo = inputOrders.split(",");
 
-        for (String order : readOrder) {
-            String[] orderInfo = order.split("-");
+        for (String inputOrderInfo : inputOrdersInfo) {
+            String[] orderInfo = getOrderInfo(inputOrderInfo);
             String menuName = orderInfo[0];
             int count = getCount(orderInfo[1]);
 
-            Order createdOrder = create(menuName, count);
-            createdOrders.add(createdOrder);
+            Order order = create(menuName, count);
+            orders.add(order);
         }
 
-        orderCheck(createdOrders);
-        return createdOrders;
+        orderCheck(orders);
+        return orders;
+    }
+    private static String[] getOrderInfo(String inputOrderInfo) {
+        String[] orderInfo = inputOrderInfo.split("-");
+        if (orderInfo.length != 2) {
+            throw new IllegalArgumentException(ErrorMessage.INPUT_ORDER_VALIDATION_EXCEPTION.getMessage());
+        }
+        return orderInfo;
     }
 
     private static Order create(String menuName, int count) {
@@ -46,9 +53,6 @@ public class Order {
             throw new IllegalArgumentException(ErrorMessage.INPUT_ORDER_VALIDATION_EXCEPTION.getMessage());
         }
         int count = Integer.parseInt(readCount);
-        if(count < 1) {
-            throw new IllegalArgumentException(ErrorMessage.INPUT_ORDER_VALIDATION_EXCEPTION.getMessage());
-        }
         return count;
     }
 

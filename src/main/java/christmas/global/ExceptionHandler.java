@@ -7,7 +7,7 @@ public class ExceptionHandler {
     public static <T> T input(Supplier<T> supplier) {
         try {
             return supplier.get();
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | IllegalStateException e) {
             System.out.println(e.getMessage());
             return input(supplier);
         }
