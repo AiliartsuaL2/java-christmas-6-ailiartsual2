@@ -1,5 +1,10 @@
 package christmas.domain;
 
+import christmas.global.ErrorMessage;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
+
 public enum VisitDate {
     DAY_1(1, false, true),
     DAY_2(2, false, true),
@@ -36,9 +41,35 @@ public enum VisitDate {
     private final boolean isSpecialDay;
     private final boolean isWeekend;
 
+    // 클래스 로드시 초기화 진행
+    static {
+        initInfo();
+    }
+
+    private static final Map<Integer,VisitDate> VISIT_DATE_INFO  = new HashMap<>();
+    private static Pattern DAY_REGEX = Pattern.compile("^(?:[1-9]|1\\d|2[0-9]|3[0-1])$");
+
     VisitDate(int day, boolean isSpecialDay, boolean isWeekend) {
         this.day = day;
         this.isSpecialDay = isSpecialDay;
         this.isWeekend = isWeekend;
+    }
+
+    private static void initInfo() {
+        for (VisitDate visitDate : VisitDate.values()) {
+            VISIT_DATE_INFO.put(visitDate.day, visitDate);
+        }
+    }
+
+    public static VisitDate getVisitDay(String readDay) {
+        dayValidation(readDay);
+        int day = Integer.parseInt(readDay);
+        return VISIT_DATE_INFO.get(day);
+    }
+
+    private static void dayValidation(String readDay) {
+        if(!DAY_REGEX.matcher(readDay).matches()) {
+            throw new IllegalArgumentException(ErrorMessage.INPUT_DAY_VALIDATION_EXCEPTION.getMessage());
+        }
     }
 }
