@@ -34,6 +34,27 @@ public class Order {
         orderCheck(orders);
         return orders;
     }
+
+    public int getDayDiscountedPrice(boolean isWeekend) {
+        int orderPrice = (this.menu.getPrice() * this.count);
+        if(isWeekend) {
+            // 주말이면 MAIN 할인
+            if(CourseType.MAIN.equals(this.menu.getCourseType())) {
+                return orderPrice - Benefit.DISCOUNT_AMOUNT;
+            }
+            return orderPrice;
+        }
+        // 평일이면 디저트 할인
+        if(CourseType.DESSERT.equals(this.menu.getCourseType())) {
+            return orderPrice - Benefit.DISCOUNT_AMOUNT;
+        }
+        return orderPrice;
+    }
+
+    public int notDiscountedPrice() {
+        return this.menu.getPrice() * count;
+    }
+
     private static String[] getOrderInfo(String inputOrderInfo) {
         String[] orderInfo = inputOrderInfo.split("-");
         if (orderInfo.length != 2) {

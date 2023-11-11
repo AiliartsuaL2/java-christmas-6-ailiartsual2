@@ -51,6 +51,18 @@ public enum VisitDate {
         this.isWeekend = isWeekend;
     }
 
+    public int getDay() {
+        return day;
+    }
+
+    public boolean isSpecialDay() {
+        return isSpecialDay;
+    }
+
+    public boolean isWeekend() {
+        return isWeekend;
+    }
+
     public static VisitDate get(String readDay) {
         dayValidation(readDay);
         int day = Integer.parseInt(readDay);
