@@ -3,6 +3,7 @@ package christmas.domain;
 import christmas.global.ErrorMessage;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 public enum VisitDate {
@@ -37,17 +38,12 @@ public enum VisitDate {
     DAY_29(29, false, true),
     DAY_30(30, false, true),
     DAY_31(31, true, false);
+
+    private static Pattern DAY_REGEX = Pattern.compile("^(?:[1-9]|1\\d|2[0-9]|3[0-1])$");
+
     private final int day;
     private final boolean isSpecialDay;
     private final boolean isWeekend;
-
-    // 클래스 로드시 초기화 진행
-    static {
-        initInfo();
-    }
-
-    private static final Map<Integer,VisitDate> VISIT_DATE_INFO  = new HashMap<>();
-    private static Pattern DAY_REGEX = Pattern.compile("^(?:[1-9]|1\\d|2[0-9]|3[0-1])$");
 
     VisitDate(int day, boolean isSpecialDay, boolean isWeekend) {
         this.day = day;
@@ -55,16 +51,20 @@ public enum VisitDate {
         this.isWeekend = isWeekend;
     }
 
-    private static void initInfo() {
-        for (VisitDate visitDate : VisitDate.values()) {
-            VISIT_DATE_INFO.put(visitDate.day, visitDate);
-        }
-    }
-
-    public static VisitDate getVisitDay(String readDay) {
+    public static VisitDate get(String readDay) {
         dayValidation(readDay);
         int day = Integer.parseInt(readDay);
-        return VISIT_DATE_INFO.get(day);
+        return findByDay(day).orElseThrow(
+                () -> new IllegalArgumentException());
+    }
+
+    private static Optional<VisitDate> findByDay(int day) {
+        for (VisitDate visitDate : VisitDate.values()) {
+            if(visitDate.day == day) {
+                return Optional.ofNullable(visitDate);
+            }
+        }
+        return Optional.empty();
     }
 
     private static void dayValidation(String readDay) {

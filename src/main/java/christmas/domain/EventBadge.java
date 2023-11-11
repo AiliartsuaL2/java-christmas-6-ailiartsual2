@@ -1,7 +1,8 @@
 package christmas.domain;
 
+import java.util.Optional;
+
 public enum EventBadge {
-    NOT_EXIST("없음", 0),
     STAR("별", 5000),
     TREE("트리", 10000),
     SANTA("산타", 20000);
@@ -14,13 +15,13 @@ public enum EventBadge {
         this.minimumPrice = minimumPrice;
     }
 
-    public static EventBadge getEventBadge(int totalBenefitAmount) {
+    public static Optional<EventBadge> getEventBadge(int totalBenefitAmount) {
         if(totalBenefitAmount >= SANTA.minimumPrice) {
-            return SANTA;
+            return Optional.ofNullable(SANTA);
         } if(totalBenefitAmount >= TREE.minimumPrice) {
-            return TREE;
+            return Optional.ofNullable(TREE);
         } if(totalBenefitAmount >= STAR.minimumPrice) {
-            return STAR;
-        } return NOT_EXIST;
+            return Optional.ofNullable(STAR);
+        } return Optional.empty();
     }
 }

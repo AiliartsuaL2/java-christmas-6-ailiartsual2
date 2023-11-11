@@ -1,5 +1,7 @@
 package christmas.domain;
 
+import java.util.Optional;
+
 public enum Menu {
     MUSHROOM_SOUP(CourseType.APPETIZER, "양송이수프", 6000),
     TAPAS(CourseType.APPETIZER, "타파스", 5500),
@@ -14,15 +16,36 @@ public enum Menu {
     RED_WINE(CourseType.BEVERAGE, "레드와인", 60000),
     CHAMPAGNE(CourseType.BEVERAGE, "샴페인", 25000);
 
+    private final CourseType courseType;
+    private final String name;
+    private final int price;
+
     Menu(CourseType courseType, String name, int price) {
         this.courseType = courseType;
         this.name = name;
         this.price = price;
     }
 
-    private final CourseType courseType;
-    private final String name;
-    private final int price;
+    public static Optional<Menu> findMenuByName(String name) {
+        for (Menu menu : Menu.values()) {
+            if(menu.name.equals(name)) {
+                return Optional.ofNullable(menu);
+            }
+        }
+        return Optional.empty();
+    }
+
+    public CourseType getCourseType() {
+        return courseType;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
 
     private enum CourseType {
         APPETIZER("에피타이저"),
