@@ -18,6 +18,14 @@ public class Order {
         this.count = count;
     }
 
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
     public static List<Order> get(String inputOrders) {
         List<Order> orders = new ArrayList<>();
         String[] inputOrdersInfo = inputOrders.split(",");

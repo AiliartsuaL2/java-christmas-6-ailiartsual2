@@ -26,6 +26,6 @@ public class ChristmasController {
         List<Order> orders = ExceptionHandler.input(inputView::readOrders);
         Bill bill = Bill.create(visitDate, orders);
         User user = new User(visitDate, orders, bill);
-        outputView.showVisitDay(user.getVisitDate().getDay());
+        outputView.showTotalOrdersInfo(user);
     }
 }

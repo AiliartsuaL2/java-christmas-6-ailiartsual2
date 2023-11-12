@@ -1,5 +1,11 @@
 package christmas.views;
 
+import christmas.domain.Order;
+import christmas.domain.User;
+import java.text.NumberFormat;
+import java.util.List;
+import java.util.Locale;
+
 public class OutputView {
     private enum OutputPhrases {
         BASIC_OUTPUT_GREET("안녕하세요! 우테코 식당 12월 이벤트 플래너입니다."),
@@ -15,11 +21,11 @@ public class OutputView {
         EXPECT_PAYMENT_BANNER("<할인 후 예상 결제 금액>"),
         EVENT_BADGE_BANNER("<12월 이벤트 배지>");
 
+        private final String message;
+
         OutputPhrases(String message) {
             this.message = message;
         }
-
-        private final String message;
     }
 
     public void showBasicOutPutGreet() {
@@ -37,6 +43,19 @@ public class OutputView {
     public void showVisitDay(int day) {
         String visitDateToKorean = visitDateToKorean(day);
         System.out.println(visitDateToKorean + OutputPhrases.BASIC_OUTPUT_PRE_VIEW.message);
+    }
+
+    public void showTotalOrdersInfo(User user) {
+        showVisitDay(user.getVisitDate().getDay());
+        showMenu(user.getOrders());
+    }
+
+    private void showMenu(List<Order> orders) {
+        for (Order order : orders) {
+            String menuName = order.getMenu().getName();
+            int count = order.getCount();
+            System.out.println(menuName + " " + count+"개");
+        }
     }
 
     private String visitDateToKorean(int day) {
