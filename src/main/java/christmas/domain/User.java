@@ -14,4 +14,20 @@ public class User {
         this.bill = bill;
         this.eventBadge = EventBadge.create(bill.getTotalBenefitAmount());
     }
+
+    public VisitDate getVisitDate() {
+        return visitDate;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public Bill getBill() {
+        return bill;
+    }
+
+    public EventBadge getEventBadge() {
+        return eventBadge;
+    }
 }
