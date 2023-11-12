@@ -28,7 +28,7 @@ public class OutputView {
         PRESENT_DISCOUNT_PREFIX("증정 이벤트: -"),
 
         TOTAL_BENEFIT_BANNER("<총혜택 금액>"),
-        EXPECT_PAYMENT_BANNER("<할인 후 예상 결제 금액>"),
+        FINAL_AMOUNT_BANNER("<할인 후 예상 결제 금액>"),
         EVENT_BADGE_BANNER("<12월 이벤트 배지>");
 
         private final String message;
@@ -57,6 +57,7 @@ public class OutputView {
         showPresent(user.getBill().getTotalOrdersPrice());
         showBenefit(user.getVisitDate(), user.getBill());
         showTotalBenefit(user.getBill());
+        showFinalAmount(user.getBill());
     }
 
     private void showVisitDay(int day) {
@@ -99,6 +100,12 @@ public class OutputView {
         int totalBenefitPrice = bill.getTotalBenefitPrice();
         String totalBenefitPriceToKorean = "-" + moneyToKoreanUnit(totalBenefitPrice);
         System.out.println(totalBenefitPriceToKorean);
+    }
+
+    private void showFinalAmount(Bill bill) {
+        System.out.println(OutputPhrases.FINAL_AMOUNT_BANNER.message);
+        int finalAmount = bill.getFinalAmount();
+        System.out.println(moneyToKoreanUnit(finalAmount));
     }
 
     private boolean isPresent(int totalNotDiscountedPrice) {

@@ -16,6 +16,7 @@ public class Bill {
         this.specialDiscount = specialDiscount;
         this.totalOrdersPrice = totalOrdersPrice;
     }
+
     public int getTotalBenefitPrice() {
         int totalBenefitPrice = 0;
         totalBenefitPrice += this.christmasDiscount;
@@ -25,6 +26,14 @@ public class Bill {
             totalBenefitPrice += 25000;
         }
         return totalBenefitPrice;
+    }
+
+    public int getFinalAmount() {
+        int finalAmount = this.totalOrdersPrice;
+        finalAmount -= this.christmasDiscount;
+        finalAmount -= this.dayDiscount;
+        finalAmount -= this.specialDiscount;
+        return finalAmount;
     }
 
     public int getChristmasDiscount() {
