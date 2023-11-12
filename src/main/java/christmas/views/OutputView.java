@@ -56,6 +56,7 @@ public class OutputView {
         showNotDiscountedPrice(user.getBill().getTotalOrdersPrice());
         showPresent(user.getBill().getTotalOrdersPrice());
         showBenefit(user.getVisitDate(), user.getBill());
+        showTotalBenefit(user.getBill());
     }
 
     private void showVisitDay(int day) {
@@ -85,19 +86,26 @@ public class OutputView {
         System.out.println("없음");
     }
 
-    private boolean isPresent(int totalNotDiscountedPrice) {
-        if(totalNotDiscountedPrice >= Bill.MINIMUM_PRESENT_AMOUNT) {
-            return true;
-        }
-        return false;
-    }
-
     private void showBenefit(VisitDate visitDate, Bill bill) {
         System.out.println(OutputPhrases.BENEFIT_BANNER.message);
         System.out.println(OutputPhrases.CHRISTMAS_DISCOUNT_PREFIX.message + moneyToKoreanUnit(bill.getChristmasDiscount()));
         System.out.println(getDayPrefix(visitDate.isWeekend()) + moneyToKoreanUnit(bill.getDayDiscount()));
         System.out.println(OutputPhrases.SPECIAL_DISCOUNT_PREFIX.message + moneyToKoreanUnit(bill.getSpecialDiscount()));
         System.out.println(OutputPhrases.PRESENT_DISCOUNT_PREFIX.message + moneyToKoreanUnit(getPresentPrice(isPresent(bill.getTotalOrdersPrice()))));
+    }
+
+    private void showTotalBenefit(Bill bill) {
+        System.out.println(OutputPhrases.TOTAL_BENEFIT_BANNER.message);
+        int totalBenefitPrice = bill.getTotalBenefitPrice();
+        String totalBenefitPriceToKorean = "-" + moneyToKoreanUnit(totalBenefitPrice);
+        System.out.println(totalBenefitPriceToKorean);
+    }
+
+    private boolean isPresent(int totalNotDiscountedPrice) {
+        if(totalNotDiscountedPrice >= Bill.MINIMUM_PRESENT_AMOUNT) {
+            return true;
+        }
+        return false;
     }
 
     private int getPresentPrice(boolean isPresent) {
