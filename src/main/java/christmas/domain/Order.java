@@ -40,13 +40,13 @@ public class Order {
         if(isWeekend) {
             // 주말이면 MAIN 할인
             if(CourseType.MAIN.equals(this.menu.getCourseType())) {
-                return orderPrice - Benefit.DISCOUNT_AMOUNT;
+                return orderPrice - Bill.DISCOUNT_AMOUNT;
             }
             return orderPrice;
         }
         // 평일이면 디저트 할인
         if(CourseType.DESSERT.equals(this.menu.getCourseType())) {
-            return orderPrice - Benefit.DISCOUNT_AMOUNT;
+            return orderPrice - Bill.DISCOUNT_AMOUNT;
         }
         return orderPrice;
     }

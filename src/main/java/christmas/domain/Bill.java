@@ -2,26 +2,26 @@ package christmas.domain;
 
 import java.util.List;
 
-public class Benefit {
+public class Bill {
     public static final int DISCOUNT_AMOUNT = 2023;
     public static final int MINIMUM_PRESENT_AMOUNT = 120000;
     private final int christmasDiscount;
     private final int dayDiscount;
     private final int specialDiscount;
-    private final boolean isPresent;
+    private final int totalOrdersPrice;
 
-    public Benefit(int christmasDiscount, int dayDiscount, int specialDiscount, boolean isPresent) {
+    public Bill(int christmasDiscount, int dayDiscount, int specialDiscount, int totalOrdersPrice) {
         this.christmasDiscount = christmasDiscount;
         this.dayDiscount = dayDiscount;
         this.specialDiscount = specialDiscount;
-        this.isPresent = isPresent;
+        this.totalOrdersPrice = totalOrdersPrice;
     }
-    public static Benefit create(VisitDate visitDate, List<Order> orders) {
+    public static Bill create(VisitDate visitDate, List<Order> orders) {
         int christmasDiscount = calculateChristmasDiscount(visitDate.getDay());
         int dayDiscount = calculateDayDiscount(visitDate.isWeekend(), orders);
         int specialDiscount = calculateSpecialDiscount(visitDate.isSpecialDay());
-        boolean isPresent = checkIsPresent(orders);
-        return new Benefit(christmasDiscount, dayDiscount, specialDiscount, isPresent);
+        int totalOrdersPrice = getTotalPrice(orders);
+        return new Bill(christmasDiscount, dayDiscount, specialDiscount, totalOrdersPrice);
     }
 
     private static int calculateChristmasDiscount(int day) {
@@ -47,14 +47,20 @@ public class Benefit {
         return 0;
     }
 
-    private static boolean checkIsPresent(List<Order> orders) {
+    private static int getTotalPrice(List<Order> orders) {
         int totalOrdersPrice = 0;
         for (Order order : orders) {
             totalOrdersPrice += order.notDiscountedPrice();
         }
-        if(totalOrdersPrice > MINIMUM_PRESENT_AMOUNT) {
-            return true;
+        return totalOrdersPrice;
+    }
+
+    public int getTotalBenefitAmount() {
+        int totalBenefitAmount = 0;
+        totalBenefitAmount = this.christmasDiscount + this.dayDiscount + this.specialDiscount;
+        if(this.totalOrdersPrice >= MINIMUM_PRESENT_AMOUNT) {
+            totalBenefitAmount += 25000;
         }
-        return false;
+        return totalBenefitAmount;
     }
 }
