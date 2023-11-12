@@ -5,16 +5,28 @@ import java.util.List;
 public class Bill {
     public static final int DISCOUNT_AMOUNT = 2023;
     public static final int MINIMUM_PRESENT_AMOUNT = 120000;
+    public static final int MINIMUM_BENEFIT_AMOUNT = 10000;
+
     private final int christmasDiscount;
     private final int dayDiscount;
     private final int specialDiscount;
     private final int totalOrdersPrice;
 
     public Bill(int christmasDiscount, int dayDiscount, int specialDiscount, int totalOrdersPrice) {
-        this.christmasDiscount = christmasDiscount;
-        this.dayDiscount = dayDiscount;
-        this.specialDiscount = specialDiscount;
         this.totalOrdersPrice = totalOrdersPrice;
+        int tmpChristmasDiscount = 0;
+        int tmpDayDiscount = 0;
+        int tmpSpecialDiscount = 0;
+
+        if(totalOrdersPrice >= MINIMUM_BENEFIT_AMOUNT) {
+            tmpChristmasDiscount = christmasDiscount;
+            tmpDayDiscount = dayDiscount;
+            tmpSpecialDiscount = specialDiscount;
+        }
+
+        this.christmasDiscount = tmpChristmasDiscount;
+        this.dayDiscount = tmpDayDiscount;
+        this.specialDiscount = tmpSpecialDiscount;
     }
 
     public int getTotalBenefitPrice() {
