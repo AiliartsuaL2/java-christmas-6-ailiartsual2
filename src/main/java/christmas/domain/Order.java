@@ -88,7 +88,11 @@ public class Order {
         if(orders.size() > 20) {
             throw new IllegalStateException(ErrorMessage.INPUT_ORDER_VALIDATION_EXCEPTION.getMessage());
         }
+        duplicateOrdersCheck(orders);
+        validateOnlyBeverageOrder(orders);
+    }
 
+    private static void duplicateOrdersCheck(List<Order> orders) {
         Set<String> menuNames = new HashSet<>();
         for (Order order : orders) {
             menuNames.add(order.menu.getName());
@@ -96,5 +100,14 @@ public class Order {
         if(menuNames.size() != orders.size()) {
             throw new IllegalStateException(ErrorMessage.INPUT_ORDER_VALIDATION_EXCEPTION.getMessage());
         }
+    }
+
+    private static void validateOnlyBeverageOrder(List<Order> orders) {
+        for (Order order : orders) {
+            if(!CourseType.BEVERAGE.equals(order.menu.getCourseType())) {
+                return;
+            }
+        }
+        throw new IllegalStateException(ErrorMessage.INPUT_ORDER_VALIDATION_EXCEPTION.getMessage());
     }
 }
