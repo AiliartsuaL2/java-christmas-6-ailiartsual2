@@ -1,6 +1,7 @@
 package christmas.views;
 
 import christmas.domain.Bill;
+import christmas.domain.EventBadge;
 import christmas.domain.Order;
 import christmas.domain.User;
 import christmas.domain.VisitDate;
@@ -58,6 +59,7 @@ public class OutputView {
         showBenefit(user.getVisitDate(), user.getBill());
         showTotalBenefit(user.getBill());
         showFinalAmount(user.getBill());
+        showEventBadge(user.getEventBadge());
     }
 
     private void showVisitDay(int day) {
@@ -66,6 +68,7 @@ public class OutputView {
     }
 
     private void showMenu(List<Order> orders) {
+        System.out.println(OutputPhrases.ORDERS_MENU_BANNER.message);
         for (Order order : orders) {
             String menuName = order.getMenu().getName();
             int count = order.getCount();
@@ -106,6 +109,11 @@ public class OutputView {
         System.out.println(OutputPhrases.FINAL_AMOUNT_BANNER.message);
         int finalAmount = bill.getFinalAmount();
         System.out.println(moneyToKoreanUnit(finalAmount));
+    }
+
+    private void showEventBadge(EventBadge eventBadge) {
+        System.out.println(OutputPhrases.EVENT_BADGE_BANNER.message);
+        System.out.println(eventBadge.getName());
     }
 
     private boolean isPresent(int totalNotDiscountedPrice) {

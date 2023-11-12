@@ -15,6 +15,10 @@ public enum EventBadge {
         this.minimumPrice = minimumPrice;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public static EventBadge create(int totalBenefitAmount) {
         if(totalBenefitAmount >= SANTA.minimumPrice) {
             return SANTA;
