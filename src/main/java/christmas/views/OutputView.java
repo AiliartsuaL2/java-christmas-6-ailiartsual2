@@ -107,8 +107,15 @@ public class OutputView {
     private void showTotalBenefit(Bill bill) {
         System.out.println(OutputPhrases.TOTAL_BENEFIT_BANNER.message);
         int totalBenefitPrice = bill.getTotalBenefitPrice();
-        String totalBenefitPriceToKorean = "-" + moneyToKoreanUnit(totalBenefitPrice);
-        System.out.println(totalBenefitPriceToKorean);
+
+        StringBuilder stringBuilder = new StringBuilder();
+        // 혜택 금액이 0원이면 음수가 아님
+        if(totalBenefitPrice != 0) {
+            stringBuilder.append("-");
+        }
+
+        stringBuilder.append(moneyToKoreanUnit(totalBenefitPrice));
+        System.out.println(stringBuilder.toString());
     }
 
     private void showFinalAmount(Bill bill) {
