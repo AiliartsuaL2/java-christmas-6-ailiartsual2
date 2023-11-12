@@ -3,6 +3,7 @@ package christmas.views;
 import christmas.domain.Bill;
 import christmas.domain.Order;
 import christmas.domain.User;
+import christmas.domain.VisitDate;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
@@ -20,6 +21,12 @@ public class OutputView {
         NOT_DISCOUNTED_PRICE_BANNER("<할인 전 총주문 금액>"),
         PRESENT_MENU_BANNER("<증정 메뉴>"),
         BENEFIT_BANNER("<혜택 내역>"),
+        CHRISTMAS_DISCOUNT_PREFIX("크리스마스 디데이 할인: -"),
+        WEEKDAY_DISCOUNT_PREFIX("평일 할인: -"),
+        WEEKEND_DISCOUNT_PREFIX("주말 할인: -"),
+        SPECIAL_DISCOUNT_PREFIX("특별 할인: -"),
+        PRESENT_DISCOUNT_PREFIX("증정 이벤트: -"),
+
         TOTAL_BENEFIT_BANNER("<총혜택 금액>"),
         EXPECT_PAYMENT_BANNER("<할인 후 예상 결제 금액>"),
         EVENT_BADGE_BANNER("<12월 이벤트 배지>");
@@ -48,6 +55,7 @@ public class OutputView {
         showMenu(user.getOrders());
         showNotDiscountedPrice(user.getBill().getTotalOrdersPrice());
         showPresent(user.getBill().getTotalOrdersPrice());
+        showBenefit(user.getVisitDate(), user.getBill());
     }
 
     private void showVisitDay(int day) {
@@ -70,11 +78,40 @@ public class OutputView {
 
     private void showPresent(int totalNotDiscountedPrice) {
         System.out.println(OutputPhrases.PRESENT_MENU_BANNER.message);
-        if(totalNotDiscountedPrice >= Bill.MINIMUM_PRESENT_AMOUNT) {
+        if(isPresent(totalNotDiscountedPrice)) {
             System.out.println("샴페인 1개");
-            return ;
+            return;
         }
         System.out.println("없음");
+    }
+
+    private boolean isPresent(int totalNotDiscountedPrice) {
+        if(totalNotDiscountedPrice >= Bill.MINIMUM_PRESENT_AMOUNT) {
+            return true;
+        }
+        return false;
+    }
+
+    private void showBenefit(VisitDate visitDate, Bill bill) {
+        System.out.println(OutputPhrases.BENEFIT_BANNER.message);
+        System.out.println(OutputPhrases.CHRISTMAS_DISCOUNT_PREFIX.message + moneyToKoreanUnit(bill.getChristmasDiscount()));
+        System.out.println(getDayPrefix(visitDate.isWeekend()) + moneyToKoreanUnit(bill.getDayDiscount()));
+        System.out.println(OutputPhrases.SPECIAL_DISCOUNT_PREFIX.message + moneyToKoreanUnit(bill.getSpecialDiscount()));
+        System.out.println(OutputPhrases.PRESENT_DISCOUNT_PREFIX.message + moneyToKoreanUnit(getPresentPrice(isPresent(bill.getTotalOrdersPrice()))));
+    }
+
+    private int getPresentPrice(boolean isPresent) {
+        if(isPresent) {
+            return 25000;
+        }
+        return 0;
+    }
+
+    private String getDayPrefix(boolean isWeekend) {
+        if(isWeekend) {
+            return OutputPhrases.WEEKEND_DISCOUNT_PREFIX.message;
+        }
+        return OutputPhrases.WEEKDAY_DISCOUNT_PREFIX.message;
     }
 
     private String visitDateToKorean(int day) {

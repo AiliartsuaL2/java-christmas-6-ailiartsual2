@@ -44,19 +44,18 @@ public class Order {
     }
 
     public int getDayDiscountedPrice(boolean isWeekend) {
-        int orderPrice = (this.menu.getPrice() * this.count);
         if(isWeekend) {
             // 주말이면 MAIN 할인
             if(CourseType.MAIN.equals(this.menu.getCourseType())) {
-                return orderPrice - Bill.DISCOUNT_AMOUNT;
+                return Bill.DISCOUNT_AMOUNT  * this.count;
             }
-            return orderPrice;
+            return 0;
         }
         // 평일이면 디저트 할인
         if(CourseType.DESSERT.equals(this.menu.getCourseType())) {
-            return orderPrice - Bill.DISCOUNT_AMOUNT;
+            return Bill.DISCOUNT_AMOUNT  * this.count;
         }
-        return orderPrice;
+        return 0;
     }
 
     public int notDiscountedPrice() {
