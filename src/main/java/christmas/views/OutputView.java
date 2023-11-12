@@ -30,7 +30,8 @@ public class OutputView {
 
         TOTAL_BENEFIT_BANNER("<총혜택 금액>"),
         FINAL_AMOUNT_BANNER("<할인 후 예상 결제 금액>"),
-        EVENT_BADGE_BANNER("<12월 이벤트 배지>");
+        EVENT_BADGE_BANNER("<12월 이벤트 배지>"),
+        NOTHING_MESSAGE("없음");
 
         private final String message;
 
@@ -87,11 +88,16 @@ public class OutputView {
             System.out.println("샴페인 1개");
             return;
         }
-        System.out.println("없음");
+        System.out.println(OutputPhrases.NOTHING_MESSAGE.message);
     }
 
     private void showBenefit(VisitDate visitDate, Bill bill) {
         System.out.println(OutputPhrases.BENEFIT_BANNER.message);
+        if(bill.getTotalBenefitAmount() == 0 && !isPresent(bill.getTotalOrdersPrice())) {
+            System.out.println(OutputPhrases.NOTHING_MESSAGE.message);
+            return;
+        }
+
         System.out.println(OutputPhrases.CHRISTMAS_DISCOUNT_PREFIX.message + moneyToKoreanUnit(bill.getChristmasDiscount()));
         System.out.println(getDayPrefix(visitDate.isWeekend()) + moneyToKoreanUnit(bill.getDayDiscount()));
         System.out.println(OutputPhrases.SPECIAL_DISCOUNT_PREFIX.message + moneyToKoreanUnit(bill.getSpecialDiscount()));
