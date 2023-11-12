@@ -7,7 +7,7 @@ public enum Menu {
     TAPAS(CourseType.APPETIZER, "타파스", 5500),
     CAESAR_SALAD(CourseType.APPETIZER, "시저샐러드", 8000),
     T_BONE_STEAK(CourseType.MAIN, "티본스테이크", 55000),
-    BARBECUE_RIBS(CourseType.MAIN, "바베큐립", 54000),
+    BARBECUE_RIBS(CourseType.MAIN, "바비큐립", 54000),
     SEA_FOOD_PASTA(CourseType.MAIN, "해산물파스타", 35000),
     CHRISTMAS_PASTA(CourseType.MAIN, "크리스마스파스타", 25000),
     CHOCOLATE_CAKE(CourseType.DESSERT, "초코케이크", 15000),

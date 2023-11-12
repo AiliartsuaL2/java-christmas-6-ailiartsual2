@@ -16,6 +16,23 @@ public class Bill {
         this.specialDiscount = specialDiscount;
         this.totalOrdersPrice = totalOrdersPrice;
     }
+
+    public int getChristmasDiscount() {
+        return christmasDiscount;
+    }
+
+    public int getDayDiscount() {
+        return dayDiscount;
+    }
+
+    public int getSpecialDiscount() {
+        return specialDiscount;
+    }
+
+    public int getTotalOrdersPrice() {
+        return totalOrdersPrice;
+    }
+
     public static Bill create(VisitDate visitDate, List<Order> orders) {
         int christmasDiscount = calculateChristmasDiscount(visitDate.getDay());
         int dayDiscount = calculateDayDiscount(visitDate.isWeekend(), orders);

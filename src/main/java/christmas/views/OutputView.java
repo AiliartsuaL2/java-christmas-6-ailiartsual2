@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class OutputView {
+    public static final NumberFormat NUMBER_FORMAT_US = NumberFormat.getNumberInstance(Locale.US);
+
     private enum OutputPhrases {
         BASIC_OUTPUT_GREET("안녕하세요! 우테코 식당 12월 이벤트 플래너입니다."),
         BASIC_OUTPUT_VISIT_DAY("12월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!)"),
@@ -48,8 +50,8 @@ public class OutputView {
     public void showTotalOrdersInfo(User user) {
         showVisitDay(user.getVisitDate().getDay());
         showMenu(user.getOrders());
+        showNotDiscountedPrice(user.getBill().getTotalOrdersPrice());
     }
-
     private void showMenu(List<Order> orders) {
         for (Order order : orders) {
             String menuName = order.getMenu().getName();
@@ -58,7 +60,16 @@ public class OutputView {
         }
     }
 
+    private void showNotDiscountedPrice(int notDiscountedPrice) {
+        System.out.println(OutputPhrases.NOT_DISCOUNTED_PRICE_BANNER.message);
+        System.out.println(moneyToKoreanUnit(notDiscountedPrice));
+    }
+
     private String visitDateToKorean(int day) {
         return OutputPhrases.VISIT_MONTH.message + day + "일";
+    }
+
+    public String moneyToKoreanUnit(int money) {
+        return NUMBER_FORMAT_US.format(money) + "원";
     }
 }
