@@ -210,4 +210,20 @@ class BillTest {
         //then
         assertThat(specialDiscount).isEqualTo(expectSpecialDiscount);
     }
+
+    @Test
+    void 만원_미만_주문_시_혜택_없음() {
+        //given
+        String inputOrders = "아이스크림-1";
+        orders = Order.get(inputOrders);
+
+        //when
+        bill = Bill.create(visitDate, orders);
+
+        //then
+        assertThat(bill.getChristmasDiscount()).isEqualTo(0);
+        assertThat(bill.getDayDiscount()).isEqualTo(0);
+        assertThat(bill.getSpecialDiscount()).isEqualTo(0);
+        assertThat(bill.getTotalBenefitAmount()).isEqualTo(0);
+    }
 }
