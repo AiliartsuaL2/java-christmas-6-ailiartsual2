@@ -13,7 +13,7 @@ public class Order {
     private final Menu menu;
     private final int count;
 
-    public Order(Menu menu, int count) {
+    private Order(Menu menu, int count) {
         this.menu = menu;
         this.count = count;
     }
@@ -85,11 +85,19 @@ public class Order {
     }
 
     private static void orderCheck(List<Order> orders) {
-        if(orders.size() > 20) {
-            throw new IllegalStateException(ErrorMessage.INPUT_ORDER_VALIDATION_EXCEPTION.getMessage());
-        }
+        totalOrderLengthCheck(orders);
         duplicateOrdersCheck(orders);
         validateOnlyBeverageOrder(orders);
+    }
+
+    private static void totalOrderLengthCheck(List<Order> orders) {
+        int totalOrderCount = 0;
+        for (Order order : orders) {
+            totalOrderCount += order.getCount();
+            if (totalOrderCount > 20) {
+                throw new IllegalStateException(ErrorMessage.INPUT_ORDER_VALIDATION_EXCEPTION.getMessage());
+            }
+        }
     }
 
     private static void duplicateOrdersCheck(List<Order> orders) {
