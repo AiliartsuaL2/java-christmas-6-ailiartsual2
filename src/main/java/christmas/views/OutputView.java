@@ -106,7 +106,7 @@ public class OutputView {
 
     private void showTotalBenefit(Bill bill) {
         System.out.println(OutputPhrases.TOTAL_BENEFIT_BANNER.message);
-        int totalBenefitPrice = bill.getTotalBenefitPrice();
+        int totalBenefitPrice = bill.getTotalBenefitAmount();
 
         StringBuilder stringBuilder = new StringBuilder();
         // 혜택 금액이 0원이면 음수가 아님

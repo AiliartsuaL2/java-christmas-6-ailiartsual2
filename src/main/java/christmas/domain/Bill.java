@@ -29,17 +29,6 @@ public class Bill {
         this.specialDiscount = tmpSpecialDiscount;
     }
 
-    public int getTotalBenefitPrice() {
-        int totalBenefitPrice = 0;
-        totalBenefitPrice += this.christmasDiscount;
-        totalBenefitPrice += this.dayDiscount;
-        totalBenefitPrice += this.specialDiscount;
-        if(this.totalOrdersPrice >= MINIMUM_PRESENT_AMOUNT) {
-            totalBenefitPrice += 25000;
-        }
-        return totalBenefitPrice;
-    }
-
     public int getFinalAmount() {
         int finalAmount = this.totalOrdersPrice;
         finalAmount -= this.christmasDiscount;
