@@ -65,7 +65,7 @@ public enum VisitDate {
         dayValidation(readDay);
         int day = Integer.parseInt(readDay);
         return findByDay(day).orElseThrow(
-                () -> new IllegalArgumentException());
+                () -> new IllegalArgumentException(ErrorMessage.INPUT_DAY_VALIDATION_EXCEPTION.getMessage()));
     }
 
     private static Optional<VisitDate> findByDay(int day) {
