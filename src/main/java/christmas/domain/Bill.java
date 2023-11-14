@@ -10,27 +10,17 @@ public class Bill {
     private final int christmasDiscount;
     private final int dayDiscount;
     private final int specialDiscount;
-    private final int totalOrdersPrice;
+    private final List<Order> orders;
 
-    public Bill(int christmasDiscount, int dayDiscount, int specialDiscount, int totalOrdersPrice) {
-        this.totalOrdersPrice = totalOrdersPrice;
-        int tmpChristmasDiscount = 0;
-        int tmpDayDiscount = 0;
-        int tmpSpecialDiscount = 0;
-
-        if(totalOrdersPrice >= MINIMUM_BENEFIT_AMOUNT) {
-            tmpChristmasDiscount = christmasDiscount;
-            tmpDayDiscount = dayDiscount;
-            tmpSpecialDiscount = specialDiscount;
-        }
-
-        this.christmasDiscount = tmpChristmasDiscount;
-        this.dayDiscount = tmpDayDiscount;
-        this.specialDiscount = tmpSpecialDiscount;
+    public Bill(int christmasDiscount, int dayDiscount, int specialDiscount, List<Order> orders) {
+        this.orders = orders;
+        this.christmasDiscount = christmasDiscount;
+        this.dayDiscount = dayDiscount;
+        this.specialDiscount = specialDiscount;
     }
 
     public int getFinalAmount() {
-        int finalAmount = this.totalOrdersPrice;
+        int finalAmount = getTotalPrice(this.orders);
         finalAmount -= this.christmasDiscount;
         finalAmount -= this.dayDiscount;
         finalAmount -= this.specialDiscount;
@@ -50,15 +40,22 @@ public class Bill {
     }
 
     public int getTotalOrdersPrice() {
-        return totalOrdersPrice;
+        return getTotalPrice(this.orders);
+    }
+
+    public List<Order> getOrders() {
+        return orders;
     }
 
     public static Bill create(VisitDate visitDate, List<Order> orders) {
+        if(getTotalPrice(orders) < MINIMUM_BENEFIT_AMOUNT) {
+            return new Bill(0,0,0,orders);
+        }
+
         int christmasDiscount = calculateChristmasDiscount(visitDate.getDay());
         int dayDiscount = calculateDayDiscount(visitDate.isWeekend(), orders);
         int specialDiscount = calculateSpecialDiscount(visitDate.isSpecialDay());
-        int totalOrdersPrice = getTotalPrice(orders);
-        return new Bill(christmasDiscount, dayDiscount, specialDiscount, totalOrdersPrice);
+        return new Bill(christmasDiscount, dayDiscount, specialDiscount, orders);
     }
 
     private static int calculateChristmasDiscount(int day) {
@@ -95,7 +92,7 @@ public class Bill {
     public int getTotalBenefitAmount() {
         int totalBenefitAmount = 0;
         totalBenefitAmount = this.christmasDiscount + this.dayDiscount + this.specialDiscount;
-        if(this.totalOrdersPrice >= MINIMUM_PRESENT_AMOUNT) {
+        if(getTotalPrice(this.orders) >= MINIMUM_PRESENT_AMOUNT) {
             totalBenefitAmount += 25000;
         }
         return totalBenefitAmount;

@@ -54,7 +54,7 @@ public class OutputView {
 
     public void showTotalOrdersInfo(User user) {
         showVisitDay(user.getVisitDate().getDay());
-        showMenu(user.getOrders());
+        showMenu(user.getBill().getOrders());
         showNotDiscountedPrice(user.getBill().getTotalOrdersPrice());
         showPresent(user.getBill().getTotalOrdersPrice());
         showBenefit(user.getVisitDate(), user.getBill());

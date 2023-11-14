@@ -25,7 +25,7 @@ public class ChristmasController {
         outputView.showBasicOutPutOrders();
         List<Order> orders = ExceptionHandler.input(inputView::readOrders);
         Bill bill = Bill.create(visitDate, orders);
-        User user = new User(visitDate, orders, bill);
+        User user = new User(visitDate, bill);
         outputView.showTotalOrdersInfo(user);
     }
 }
